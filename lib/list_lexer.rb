@@ -8,8 +8,6 @@ class ListLexer < Lexer
     @COMMA = 3
     @L_BRACKET = 4
     @R_BRACKET = 5
-    # @HEADING = 6
-    # @LIST = 7
     super text
   end
 
@@ -37,10 +35,6 @@ class ListLexer < Lexer
         when "]"
           self.consume
           return Token.new @R_BRACKET, "]"
-        # when "#"
-        #   return self.heading_token
-        # when "*"||"-"
-        #   return self.list_token
         else
           begin
             if self.is_letter

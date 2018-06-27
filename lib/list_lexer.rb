@@ -1,9 +1,8 @@
 class ListLexer < Lexer
-
-  @tokenNames = %w(n/a <EOF> NAME COMMA L_BRACKET R_BRACEKT HEADING LIST)
+  @tokenNames = %w[n/a <EOF> NAME COMMA L_BRACKET R_BRACEKT HEADING LIST]
 
   attr_reader :NAME, :COMMA, :L_BRACKET, :R_BRACKET
-  def initialize text
+  def initialize(text)
     @NAME = 2
     @COMMA = 3
     @L_BRACKET = 4
@@ -11,8 +10,8 @@ class ListLexer < Lexer
     super text
   end
 
-  def self.tokenNames
-    @tokenNames
+  class << self
+    attr_reader :tokenNames
   end
 
   def is_letter
@@ -20,60 +19,45 @@ class ListLexer < Lexer
   end
 
   def next_token
-    eof = nil.freeze
+    eof = nil
     while @char != eof
       case @char
-        when "\s" || "\t" || "\n" || "\r" || "\r\n"
-          self.white_space
-          self.continue
-        when ","
-          self.consume
-          return Token.new @COMMA, ","
-        when "["
-          self.consume
-          return Token.new @L_BRACKET, "["
-        when "]"
-          self.consume
-          return Token.new @R_BRACKET, "]"
-        else
-          begin
-            if self.is_letter
-              return self.name_token
-            end
-          rescue RuntimeError
-            puts $!
-            puts $@
-          end
+      when "\s" || "\t" || "\n" || "\r" || "\r\n"
+        white_space
+        continue
+      when ','
+        consume
+        return Token.new @COMMA, ','
+      when '['
+        consume
+        return Token.new @L_BRACKET, '['
+      when ']'
+        consume
+        return Token.new @R_BRACKET, ']'
+      else
+        begin
+          return name_token if is_letter
+        rescue RuntimeError
+          puts $ERROR_INFO
+          puts $ERROR_POSITION
+        end
       end
     end
-    return Token.new @EOF_TYPE, "<EOF>"
+    Token.new @EOF_TYPE, '<EOF>'
   end
 
   def name_token
-    str = ""
+    str = ''
     frag = true
     while frag
       str += @char
-      self.consume
-      frag = self.is_letter
+      consume
+      frag = is_letter
     end
-    return Token.new @NAME, str
+    Token.new @NAME, str
   end
-
-  # def heading_token
-  #   str = ""
-  #   while @char=="#"
-  #     str = @char
-  #     self.consume
-  #   end
-  #   return Token.new @HEADING, str
-  # end
-
 
   def white_space
-    while @char == ("\s" || "\t" || "\n" || "\r" || "\r\n")
-      self.consume
-    end
+    consume while @char == ("\s" || "\t" || "\n" || "\r" || "\r\n")
   end
-
 end

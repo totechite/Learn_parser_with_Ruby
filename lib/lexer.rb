@@ -1,9 +1,8 @@
 class Lexer
-
   attr_accessor :position
   attr_reader :text, :char
 
-  def initialize text
+  def initialize(text)
     @EOF = -1.to_c
     @EOF_TYPE = 1
 
@@ -19,20 +18,18 @@ class Lexer
 
   def consume
     @position += 1
-    self.char
+    char
   end
 
-  def match x
+  def match(x)
     if @char == x
-      self.consume
+      consume
     else
-      raise RuntimeError, "expecting" + x + "; found" + c
+      raise 'expecting' + x + '; found' + c
     end
   end
 
-  def next_token
-  end
+  def next_token; end
 
-  def tokenNames
-  end
+  def tokenNames; end
 end

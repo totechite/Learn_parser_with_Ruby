@@ -14,8 +14,8 @@ class ListLexer < Lexer
     attr_reader :tokenNames
   end
 
-  def is_letter
-    /[a-z]|[A-Z]/ === @char
+  def is_letter?
+    @char == /[a-z]|[A-Z]/
   end
 
   def next_token
@@ -36,7 +36,7 @@ class ListLexer < Lexer
         return Token.new @R_BRACKET, ']'
       else
         begin
-          return name_token if is_letter
+          return name_token if is_letter?
         rescue RuntimeError
           puts $ERROR_INFO
           puts $ERROR_POSITION
@@ -52,7 +52,7 @@ class ListLexer < Lexer
     while frag
       str += @char
       consume
-      frag = is_letter
+      frag = is_letter?
     end
     Token.new @NAME, str
   end

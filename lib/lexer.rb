@@ -1,6 +1,6 @@
 class Lexer
   attr_accessor :position
-  attr_reader :text, :char
+  attr_reader :text
 
   def initialize(text)
     @EOF = -1.to_c

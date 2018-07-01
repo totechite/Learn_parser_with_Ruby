@@ -1,8 +1,12 @@
 class Token
-  attr_accessor :type, :text
+  attr_reader :type, :text
   def initialize(type, text)
     @type = type
     @text = text
+  end
+
+  class << self
+    attr_reader :type, :text
   end
 
   def to_s

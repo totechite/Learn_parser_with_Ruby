@@ -1,3 +1,5 @@
 require './lib/lexer'
 require './lib/list_lexer'
 require './lib/token'
+require './lib/parser'
+require './lib/list_parser'

@@ -1,8 +1,12 @@
 class ListLexer < Lexer
   @tokenNames = %w[n/a <EOF> NAME COMMA L_BRACKET R_BRACEKT HEADING LIST]
+  @NAME = 2
+  @COMMA = 3
+  @L_BRACKET = 4
+  @R_BRACKET = 5
 
-  attr_reader :NAME, :COMMA, :L_BRACKET, :R_BRACKET
   def initialize(text)
+    @tokenNames = %w[n/a <EOF> NAME COMMA L_BRACKET R_BRACEKT HEADING LIST]
     @NAME = 2
     @COMMA = 3
     @L_BRACKET = 4
@@ -11,11 +15,15 @@ class ListLexer < Lexer
   end
 
   class << self
-    attr_reader :tokenNames
+    attr_reader :tokenNames, :NAME, :COMMA, :L_BRACKET, :R_BRACKET
   end
 
   def is_letter?
-    @char == /[a-z]|[A-Z]/
+    if nil != (@char =~ /[a-z]|[A-Z]/)
+      true
+    else
+      false
+    end
   end
 
   def next_token
@@ -27,13 +35,13 @@ class ListLexer < Lexer
         continue
       when ','
         consume
-        return Token.new @COMMA, ','
+        return Token.new(@COMMA, ',')
       when '['
         consume
-        return Token.new @L_BRACKET, '['
+        return Token.new(@L_BRACKET, '[')
       when ']'
         consume
-        return Token.new @R_BRACKET, ']'
+        return Token.new(@R_BRACKET, ']')
       else
         begin
           return name_token if is_letter?

@@ -1,10 +1,12 @@
 require "spec_helper"
+require "lexer.rb"
 require "list_lexer.rb"
 
-# lexer = ListLexer.new
+f = File.new 'sample.md'
+lexer = ListLexer.new f
 
-# describe ListLexer.Name do
-#   it "is 2" do
-#     expect(lexer.NAME).to eq 2
-#   end
-# end
+describe ListLexer.NAME do
+  it "is 2" do
+    expect(ListLexer.NAME).to eq 2
+  end
+end

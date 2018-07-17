@@ -5,7 +5,6 @@ class Parser
   end
 
   def match(n)
-    p @lookahead #degub
     if @lookahead.type == n
       consume
     else

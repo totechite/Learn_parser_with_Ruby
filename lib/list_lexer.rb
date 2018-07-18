@@ -19,11 +19,7 @@ class ListLexer < Lexer
   end
 
   def is_letter?
-    if nil != (@char =~ /[a-z]|[A-Z]/)
-      true
-    else
-      false
-    end
+    (@char =~ /[a-z]|[A-Z]/) != nil
   end
 
   def next_token
